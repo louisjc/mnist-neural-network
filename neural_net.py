@@ -124,6 +124,19 @@ class Network:
     def predict_one(self, input_vector):
         return np.argmax(self.feed_forward(input_vector)[-1])
 
+    def sauv(self, file_name=''):
+        if file_name == '':
+            file_name = 'nt_'+str(self.accu(TESTING)[0])
+        sauvfile = self.layers
+        f = open(file_name, 'wb')
+        pickle.dump(sauvfile, f)
+        f.close()
+
+    def load(self, file_name):
+        f = open(file_name, 'rb')
+        self.layers = pickle.load(f, encoding='latin1')
+        f.close()
+
     def accu(self, testing):
         """The lowest precision digit and total"""
         res = np.zeros((10, 2))
