@@ -152,3 +152,50 @@ class Network:
 
 nt1=Network(300)
 nt1.train(600,TRAINING)
+
+# =====================
+#   Display fonctions
+# =====================
+
+# Rounding off the prints and scientific notation
+np.set_printoptions(precision=2)
+np.set_printoptions(suppress=True)
+
+
+def find(c, network):
+    x = randint(0, 999)
+    while TESTING[1][x] != c:
+        x = randint(0, 10000)
+    aff(x, network)
+
+
+def aff(x, network):
+    print('Display character #'+str(x))
+    print('Target = '+str(TESTING[1][x]))
+    char = TESTING[0][x]
+    l = ''
+    for i in range(784):
+        if i % 28 == 0:
+            print(l)
+            l = str(int(round(char[i])))
+        else:
+            l += str(int(round(char[i])))
+    pred = network.predict(char)
+    print('Prediction = ' + str(np.argmax(pred)))
+    print(pred)
+
+
+def err(network):
+    x = randint(0, 10000)
+    while network.predict_one(TESTING[0][x]) == TESTING[1][x]:
+        x = randint(0, 10000)
+    aff(x, network)
+
+
+def test_nn(network):
+    """Test Network"""
+    ok, nb = 0, 10000
+    for k in range(nb):
+        if network.predict_one(TESTING[0][k]) == TESTING[1][k]:
+            ok += 1
+    return round((ok*100./nb), 1)
