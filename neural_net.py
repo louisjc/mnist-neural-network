@@ -199,3 +199,30 @@ def test_nn(network):
         if network.predict_one(TESTING[0][k]) == TESTING[1][k]:
             ok += 1
     return round((ok*100./nb), 1)
+
+# =====================
+#     Try with png
+# =====================
+
+def load_png(png):
+    img = misc.imread(png)
+    res = np.zeros(28*28)
+    for i, _ in enumerate(img):
+        for j, px in enumerate(img[i]):
+            res[28*i + j] = str(int(round(abs(px[1]-255)/255.)))
+    return res
+
+
+def aff2(x, *network):
+    char = x
+    l = ''
+    for i in range(784):
+        if i % 28 == 0:
+            print(l)
+            l = str(int(round(char[i])))
+        else:
+            l += str(int(round(char[i])))
+    for nt in network:
+        pred = nt.predict(char)
+        print('Prediction = ' + str(np.argmax(pred)))
+        print(pred)
