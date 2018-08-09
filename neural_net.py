@@ -111,11 +111,11 @@ class Network:
 
         # Calculation of partial derivatives for the output layer and subtraction
         output_deltas = outputs * (1 - outputs) * (outputs - target)
-        self.layers[-1] -= c*np.outer(output_deltas, np.append(hidden_outputs, 1))
 
         # Calculation of partial derivatives for the hidden layer and subtraction
         hidden_deltas = hidden_outputs * (1 - hidden_outputs) * \
-            np.dot(np.delete(self.layers[-1], 200, 1).T, output_deltas)
+            np.dot(np.delete(self.layers[-1], 300, 1).T, output_deltas)
+        self.layers[-1] -= c*np.outer(output_deltas, np.append(hidden_outputs, 1))
         self.layers[0] -= c*np.outer(hidden_deltas, np.append(input_vector, 1))
 
     def predict(self, input_vector):
